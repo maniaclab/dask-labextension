@@ -84,7 +84,8 @@ export class DaskClusterManager extends Widget {
         options.setDashboardUrl(cluster.dashboard_link);
       } else {
         // Otherwise, use the internal proxy URL.
-        options.setDashboardUrl(`dask/dashboard/${cluster.id}`);
+        //options.setDashboardUrl(`dask/dashboard/${cluster.id}`);
+        options.setDashboardUrl(cluster.dashboard_link);
       }
 
       const old = this._activeCluster;
