@@ -160,7 +160,8 @@ class DaskClusterManager:
         if adaptive:
             self._adaptives[cluster_id] = adaptive
 
-        save_tls_credentials(await self.gateway.get_cluster(cluster.name))
+        if self.gateway:
+            save_tls_credentials(await self.gateway.get_cluster(cluster.name))
 
         self._clusters[cluster_id] = cluster
         self._cluster_names[cluster_id] = cluster_name
