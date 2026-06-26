@@ -741,21 +741,12 @@ client = Client()`;
    * Get code to connect to a given cluster.
    */
   export function getClientCode(cluster: IClusterModel): string {
-    let sch = cluster.scheduler_address;
-    let i = sch.lastIndexOf("/");
-    let clusterName = sch.substring(i+1);
+    const sch = cluster.scheduler_address;
+    const clusterName = sch.substring(sch.lastIndexOf('/') + 1);
     return `from dask_gateway import Gateway
-from dask.distributed import Client
-from distributed.security import Security
-import os
-cert_dir = os.path.join(os.path.expanduser("~"), ".config", "dask", "tls")
-cert=os.path.join(cert_dir, f"${clusterName}.pem")
-key=os.path.join(cert_dir, f"${clusterName}.key")
-sec = Security(tls_ca_file=cert,
-               tls_client_cert=cert,
-               tls_client_key=key,
-               require_encryption=True)
-client = Client("${cluster.scheduler_address}", security=sec)
+gateway = Gateway()
+cluster = gateway.connect("${clusterName}")
+client = cluster.get_client()
 client`;
   }
 
